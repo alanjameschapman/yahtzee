@@ -84,13 +84,13 @@ def user_prompt(dice, roll):
     """
     roll += 1
     remain = 3-roll
-    
+
     # Check if the user has taken 3 rolls.
     if roll >= 3:
         print(f'You have taken 3 rolls and your dice are: {dice}\n'
-        'Time to submit your score!')
+              'Time to submit your score!')
         submit(dice)
-    
+
     while True:
         try:
             game_choice = input(
@@ -162,12 +162,14 @@ def keep_and_reroll(dice, roll, dice_to_keep):
 def submit(dice):
     """
     Evaluates score and adds to scoreboard once user selects box.
+    Then resets dice and roll before calling roll_one.
     """
-    print('User selects which field of Scoreboard to use.')
-    
+    input('Select which Scoreboard box you want to use.')
+
     # Reset dice values before reroll
     dice = 0
-    roll_one()
+    roll = 0
+    roll_one(roll)
 
 
 # Main code block
