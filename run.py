@@ -89,7 +89,7 @@ def user_prompt(dice, roll):
     if roll >= 3:
         print(f'You have taken 3 rolls and your dice are: {dice}\n'
               'Time to submit your score!')
-        submit(dice)
+        submit(dice, roll)
 
     while True:
         try:
@@ -106,9 +106,10 @@ def user_prompt(dice, roll):
             print('Invalid input. Please try again.')
 
     if game_choice == 'e':
+        roll = 0
         home()
     elif game_choice == 's':
-        submit(dice)
+        submit(dice, roll)
     else:
         keep_choice(dice, roll)
 
@@ -141,11 +142,11 @@ def keep_choice(dice, roll):
 
 
 def keep_and_reroll(dice, roll, dice_to_keep):
-    """
+    '''
     Takes dice arg from previous roll and re-rolls dice which aren't in keep
     list selected by user.
     Returns an updated list of dice values.
-    """
+    '''
 
     # Create a copy of the dice list.
     # new_dice = dice[:]
@@ -159,17 +160,60 @@ def keep_and_reroll(dice, roll, dice_to_keep):
     user_prompt(dice, roll)
 
 
-def submit(dice):
-    """
+def submit(dice, roll):
+    '''
     Evaluates score and adds to scoreboard once user selects box.
     Then resets dice and roll before calling roll_one.
-    """
-    input('Select which Scoreboard box you want to use.')
+    '''
+    box = input('Select which Scoreboard box you want to use.')
+    scoreboard()
+    
+    points(box, dice)
 
     # Reset dice values before reroll
     dice = 0
     roll = 0
     roll_one(roll)
+
+
+def points(box, dice):
+    '''Calculates points scored'''
+    if box == '1':
+        score = sum(die == 1 for die in dice)
+        return score
+    if box == '2':
+        score = sum(die == 2 for die in dice)
+        return score
+    if box == '3':
+        score = sum(die == 3 for die in dice)
+        return score
+    if box == '4':
+        score = sum(die == 4 for die in dice)
+        return score
+    if box == '5':
+        score = sum(die == 5 for die in dice)
+        return score
+    if box == '6':
+        score = sum(die == 6 for die in dice)
+        return score
+    if box == 'th':
+        if len(set(dice)) <= 3:
+            score = sum(dice)
+            return score
+        else:
+            return 0
+    if box == 'fo':
+        if len(set(dice)) <= 4:
+            score = sum(dice)
+            return score
+        else:
+            return 0
+
+
+def scoreboard():
+    '''Holds the scores'''
+    scoreboard = []
+    print(scoreboard)
 
 
 # Main code block
