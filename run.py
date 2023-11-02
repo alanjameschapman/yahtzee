@@ -28,7 +28,8 @@ def home():
     else:
         name = input('Please enter your name: ')
         print(f"{name}, let's play Yahtzee!\n")
-        roll_one()
+        roll = 0
+        roll_one(roll)
 
 
 def leaderboard():
@@ -64,7 +65,7 @@ def rules():
     home()
 
 
-def roll_one():
+def roll_one(roll):
     """
     Generates a list of five random integers between 1 and 6 to represent die
     face values
@@ -74,17 +75,27 @@ def roll_one():
         die = random.randint(1, 6)
         dice.append(die)
 
-    user_prompt(dice)
+    user_prompt(dice, roll)
 
 
-def user_prompt(dice):
+def user_prompt(dice, roll):
     """
     Prints the current roll and prompts user to re-roll, submit or exit.
     """
+    roll += 1
+    remain = 3-roll
+    
+    # Check if the user has taken 3 rolls.
+    if roll >= 3:
+        print(f'You have taken 3 rolls and your dice are: {dice}\n'
+        'Time to submit your score!')
+        submit(dice)
+    
     while True:
         try:
             game_choice = input(
-                f'After your nth roll, your dice are: {dice}\n'
+                f'After roll {roll}, you have {remain} more remaining.\n'
+                f'Your dice are: {dice}\n'
                 "Type 'r' to re-roll some or all dice, 's' to submit score to"
                 " scoreboard, or 'e' to exit home.\n"
                 "Your choice: ")
@@ -98,13 +109,11 @@ def user_prompt(dice):
         home()
     elif game_choice == 's':
         submit(dice)
-    elif game_choice == 'r':
-        keep_choice(dice)
     else:
-        print('unknown input error')
+        keep_choice(dice, roll)
 
 
-def keep_choice(dice):
+def keep_choice(dice, roll):
     """Takes dice arg from previous roll and prompts the user to input which
     dice should be kept. Returns a list of integers to retain.
     """
@@ -128,10 +137,10 @@ def keep_choice(dice):
         except ValueError:
             print('Invalid input. Please try again.')
 
-    keep_and_reroll(dice, dice_to_keep)
+    keep_and_reroll(dice, roll, dice_to_keep)
 
 
-def keep_and_reroll(dice, dice_to_keep):
+def keep_and_reroll(dice, roll, dice_to_keep):
     """
     Takes dice arg from previous roll and re-rolls dice which aren't in keep
     list selected by user.
@@ -147,17 +156,18 @@ def keep_and_reroll(dice, dice_to_keep):
         if die not in dice_to_keep:
             dice[die] = random.randint(1, 6)
 
-    print(f'Your updated roll is {dice}. You have n rolls remaining.')
-
-    user_prompt(dice)
+    user_prompt(dice, roll)
 
 
 def submit(dice):
     """
     Evaluates score and adds to scoreboard once user selects box.
     """
-    print('Scoreboard updates...')
-    home()
+    print('User selects which field of Scoreboard to use.')
+    
+    # Reset dice values before reroll
+    dice = 0
+    roll_one()
 
 
 # Main code block
