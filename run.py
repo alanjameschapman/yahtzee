@@ -1,67 +1,60 @@
 # 80 characters wide and 24 rows high max
-
+# Imports used to generate dice rolls and for clear_display()
 import random
+import os
+
+
+def clear_display():
+    '''Clears the display'''
+    # Taken from https://www.delftstack.com/howto/python/python-clear-console/
+    command = 'clear'
+    if os.name in (
+            'nt', 'dos'):  # If Machine is running on Windows, use cls
+        command = 'cls'
+    os.system(command)
 
 
 def home():
-    """
-    Displays home screen and user prompt for leaderboard, rules or game.
-    """
+    '''Displays home screen and user prompt for leaderboard, rules or game.'''
     print('ASCII art goes here')
-
-    home_choice = input(
-        "Type 'l' for leaderboard, 'r' for rules, or 'p' to play.\n"
-        "Your choice: ")
-
+    # Loops until valid input given
     while True:
-        try:
-            if home_choice not in ['l', 'r', 'p']:
-                raise ValueError('Invalid choice')
-            break
-        except ValueError:
-            print('Invalid input. Please try again.')
-
-    if home_choice == 'l':
-        leaderboard()
-    elif home_choice == 'r':
-        rules()
-    else:
-        name = input('Please enter your name: ')
-        print(f"{name}, let's play Yahtzee!\n")
-        roll = 0
-        roll_one(roll)
+        home_choice = input(
+            "Type 'l' for leaderboard, 'r' for rules, or 'p' to play.\n"
+            "Your choice: ")
+        home_choice = home_choice.lower()
+        # Validates input and prompts until valid.
+        if home_choice not in ['l', 'r', 'p']:
+            print('Try again...\U0001F644')
+        else:
+            if home_choice == 'l':
+                leaderboard()
+            elif home_choice == 'r':
+                rules()
+            else:
+                while True:
+                    name = input('Please enter your name: ')
+                    if name == "":
+                        print('Try again...\U0001F644')
+                    else:
+                        name = name.capitalize()
+                        input(f"OK {name}, let's play Yahtzee!\n"
+                        'Hit Enter to roll dice...')
+                        roll = 0
+                        roll_one(roll)
 
 
 def leaderboard():
-    """
-    Generates a leaderboard from Google Sheet.
-    """
+    '''Generates a leaderboard from Google Sheet.'''
     print('Leaderboard (top 10) to go here')
     leaderboard_input = input('Press Enter to return Home')
-
-    while True:
-        try:
-            if leaderboard_input != "":
-                raise ValueError('Invalid choice')
-            break
-        except ValueError:
-            print('Invalid input. Please try again.')
     home()
 
 
 def rules():
-    """
-    Displays rules. Clear screen method used to move to next page.
-    """
+    '''Displays rules. Clear screen method used to move to next page.'''
     print('Rules to go here...')
     rules_input = input('Press Enter to return Home')
-    while True:
-        try:
-            if rules_input != "":
-                raise ValueError('Invalid choice')
-            break
-        except ValueError:
-            print('Invalid input. Please try again.')
     home()
 
 
@@ -70,6 +63,7 @@ def roll_one(roll):
     Generates a list of five random integers between 1 and 6 to represent die
     face values
     """
+    clear_display()
     dice = []
     for die in range(5):
         die = random.randint(1, 6)
@@ -79,9 +73,7 @@ def roll_one(roll):
 
 
 def user_prompt(dice, roll):
-    """
-    Prints the current roll and prompts user to re-roll, submit or exit.
-    """
+    '''Prints the current roll and prompts user to re-roll, submit or exit.'''
     roll += 1
     remain = 3-roll
 
@@ -90,64 +82,52 @@ def user_prompt(dice, roll):
         print(f'You have taken 3 rolls and your dice are: {dice}\n'
               'Time to submit your score!')
         submit(dice, roll)
-
+    # Advises user of dice and asks for valid unput
+    print(f'After roll {roll}, you have {remain} more remaining.\n'
+          f'Your dice are: {dice}\n'
+            "Type 'r' to re-roll some or all dice, 's' to submit score to"
+            " scoreboard, or 'e' to exit home.")
     while True:
-        try:
-            game_choice = input(
-                f'After roll {roll}, you have {remain} more remaining.\n'
-                f'Your dice are: {dice}\n'
-                "Type 'r' to re-roll some or all dice, 's' to submit score to"
-                " scoreboard, or 'e' to exit home.\n"
-                "Your choice: ")
-            if game_choice not in ['r', 's', 'e']:
-                raise ValueError('Invalid choice')
-            break
-        except ValueError:
-            print('Invalid input. Please try again.')
-
-    if game_choice == 'e':
-        roll = 0
-        home()
-    elif game_choice == 's':
-        submit(dice, roll)
-    else:
-        keep_choice(dice, roll)
+        game_choice = input('Your choice:')
+        game_choice = game_choice.lower()
+        if game_choice not in ['r', 's', 'e']:
+            print('Try again...\U0001F644')
+        elif game_choice == 'e':
+            home()
+        elif game_choice == 's':
+            submit(dice, roll)
+        else:
+            keep_choice(dice, roll)
 
 
 def keep_choice(dice, roll):
-    """Takes dice arg from previous roll and prompts the user to input which
-    dice should be kept. Returns a list of integers to retain.
-    """
+    '''Takes dice and roll arg from previous roll and prompts the user to
+    input which dice should be kept. Returns a list of integers to retain.'''
+
+    print('Which dice do you want to keep? Enter numbers separated by spaces')
     # Prompt the user to input which dice to keep.
     while True:
-        try:
-            dice_to_keep = input(
-                'Which dice do you want to keep? (Enter the '
-                'indices, separated by spaces): ')
+        dice_to_keep = input('Your choice:')
 
-            # Split the input string into a list of integers.
+        # Validate the input.
+        try:
             dice_to_keep = [int(i) for i in dice_to_keep.split()]
 
-            # Validate the input.
-            for i in dice_to_keep:
-                if i < 0 or i >= len(dice):
-                    raise ValueError('Invalid index.')
-
-            # Break out of the loop if the input is valid.
-            break
+            if not dice_to_keep:
+                print('Try again...\U0001F644')
+            elif any(die < 1 or die > 5 for die in dice_to_keep):
+                print('Try again...\U0001F644')
+            else:
+                keep_and_reroll(dice, roll, dice_to_keep)
+                break
         except ValueError:
-            print('Invalid input. Please try again.')
-
-    keep_and_reroll(dice, roll, dice_to_keep)
+            print('Try again...\U0001F644')
 
 
 def keep_and_reroll(dice, roll, dice_to_keep):
-    '''
-    Takes dice arg from previous roll and re-rolls dice which aren't in keep
-    list selected by user.
-    Returns an updated list of dice values.
-    '''
-
+    '''Takes dice arg from previous roll and re-rolls dice which aren't in
+    keep list selected by user. Returns an updated list of dice values.'''
+    clear_display()
     # Create a copy of the dice list.
     # new_dice = dice[:]
     dice = dice[:]
@@ -167,7 +147,7 @@ def submit(dice, roll):
     '''
     box = input('Select which Scoreboard box you want to use.')
     scoreboard()
-    
+
     points(box, dice)
 
     # Reset dice values before reroll
