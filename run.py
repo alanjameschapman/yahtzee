@@ -177,12 +177,14 @@ def points(box, dice):
         for die in set(dice):
             if dice.count(die) >= 3:
                 score = sum(dice)
+                break
             else:
                 score = 0
     if box == 'fo':
         for die in set(dice):
             if dice.count(die) >= 4:
                 score = sum(dice)
+                break
             else:
                 score = 0
     if box == 'ls':
