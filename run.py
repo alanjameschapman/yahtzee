@@ -39,7 +39,7 @@ def home():
                     else:
                         name = name.capitalize()
                         input(f"OK {name}, let's play Yahtzee!\n"
-                        'Hit Enter to roll dice...')
+                              'Hit Enter to roll dice...')
                         roll = 0
                         roll_one(roll)
 
@@ -54,7 +54,7 @@ def leaderboard():
 def rules():
     '''Displays rules. Clear screen method used to move to next page.'''
     print('Rules to go here...')
-    rules_input = input('Press Enter to return Home')
+    input('Press Enter to return Home')
     home()
 
 
@@ -85,8 +85,8 @@ def user_prompt(dice, roll):
     # Advises user of dice and asks for valid unput
     print(f'After roll {roll}, you have {remain} more remaining.\n'
           f'Your dice are: {dice}\n'
-            "Type 'r' to re-roll some or all dice, 's' to submit score to"
-            " scoreboard, or 'e' to exit home.")
+          "Type 'r' to re-roll some or all dice, 's' to submit score to"
+          "scoreboard, or 'e' to exit home.")
     while True:
         game_choice = input('Your choice:')
         game_choice = game_choice.lower()
@@ -109,19 +109,22 @@ def keep_choice(dice, roll):
     while True:
         dice_to_keep = input('Your choice:')
 
-        # Validate the input.
-        try:
+        # Check if the string is empty.
+        if dice_to_keep == "":
+            print('Try again...\U0001F644')
+        # Check if the string contains letters.
+        elif any(char.isalpha() for char in dice_to_keep):
+            print('Try again...\U0001F644')
+        else:
+            # Split the input string into a list of integers.
             dice_to_keep = [int(i) for i in dice_to_keep.split()]
 
-            if not dice_to_keep:
-                print('Try again...\U0001F644')
-            elif any(die < 1 or die > 5 for die in dice_to_keep):
-                print('Try again...\U0001F644')
+            # Check if any die values are out of range (1 to 5).
+            if any(die < 1 or die > 5 for die in dice_to_keep):
+                print('Enter numbers between 1 and 5.')
             else:
                 keep_and_reroll(dice, roll, dice_to_keep)
                 break
-        except ValueError:
-            print('Try again...\U0001F644')
 
 
 def keep_and_reroll(dice, roll, dice_to_keep):
@@ -129,8 +132,9 @@ def keep_and_reroll(dice, roll, dice_to_keep):
     keep list selected by user. Returns an updated list of dice values.'''
     clear_display()
     # Create a copy of the dice list.
-    # new_dice = dice[:]
     dice = dice[:]
+    # Converts user choice (1-5) to indices (0-4)
+    dice_to_keep = [die-1 for die in dice_to_keep]
 
     # Re-roll the dice that are not being kept.
     for die in range(len(dice)):
@@ -150,7 +154,7 @@ def submit(dice, roll):
 
     points(box, dice)
 
-    # Reset dice values before reroll
+    # Reset dice and roll values before reroll
     dice = 0
     roll = 0
     roll_one(roll)
