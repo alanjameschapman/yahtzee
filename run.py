@@ -19,17 +19,17 @@ def home():
     print('ASCII art goes here')
     # Loops until valid input given
     while True:
-        home_choice = input(
+        home_input = input(
             "Type 'l' for leaderboard, 'r' for rules, or 'p' to play.\n"
             "Your choice: ")
-        home_choice = home_choice.lower()
+        home_input = home_input.lower()
         # Validates input and prompts until valid.
-        if home_choice not in ['l', 'r', 'p']:
+        if home_input not in ['l', 'r', 'p']:
             print('Try again...\U0001F644')
         else:
-            if home_choice == 'l':
+            if home_input == 'l':
                 leaderboard()
-            elif home_choice == 'r':
+            elif home_input == 'r':
                 rules()
             else:
                 while True:
@@ -81,21 +81,19 @@ def user_prompt(dice, roll):
     if roll >= 3:
         print(f'You have taken 3 rolls and your dice are: {dice}\n'
               'Time to submit your score!')
-        submit(dice, roll)
+        submit(dice)
     # Advises user of dice and asks for valid unput
-    print(f'After roll {roll}, you have {remain} more remaining.\n'
-          f'Your dice are: {dice}\n'
-          "Type 'r' to re-roll some or all dice, 's' to submit score to"
-          "scoreboard, or 'e' to exit home.")
+    print(f'After roll {roll} ({remain} remaining), your dice are: {dice}\n'
+          "Enter 'r' to re-roll, 's' to submit score, or 'e' to exit.")
     while True:
-        game_choice = input('Your choice:')
+        game_choice = input('Your choice: ')
         game_choice = game_choice.lower()
         if game_choice not in ['r', 's', 'e']:
             print('Try again...\U0001F644')
         elif game_choice == 'e':
             home()
         elif game_choice == 's':
-            submit(dice, roll)
+            submit(dice)
         else:
             keep_choice(dice, roll)
 
@@ -104,7 +102,8 @@ def keep_choice(dice, roll):
     '''Takes dice and roll arg from previous roll and prompts the user to
     input which dice should be kept. Returns a list of integers to retain.'''
 
-    print('Which dice do you want to keep? Enter numbers separated by spaces')
+    print('Which dice do you want to keep?\n'
+          'Enter numbers separated by spaces.')
     # Prompt the user to input which dice to keep.
     while True:
         dice_to_keep = input('Your choice:')
@@ -130,7 +129,6 @@ def keep_choice(dice, roll):
 def keep_and_reroll(dice, roll, dice_to_keep):
     '''Takes dice arg from previous roll and re-rolls dice which aren't in
     keep list selected by user. Returns an updated list of dice values.'''
-    clear_display()
     # Create a copy of the dice list.
     dice = dice[:]
     # Converts user choice (1-5) to indices (0-4)
@@ -144,23 +142,28 @@ def keep_and_reroll(dice, roll, dice_to_keep):
     user_prompt(dice, roll)
 
 
-def submit(dice, roll):
+def submit(dice):
     '''
     Evaluates score and adds to scoreboard once user selects box.
     Then resets dice and roll before calling roll_one.
     '''
-    box = input('Select which Scoreboard box you want to use.')
-    box = box.lower()
-    # Validation to go here
-
     display_scoreboard()
-
-    points(box, dice)
+    print(f'Your dice are: {dice}')
+    
+    box_options = ['1', '2', '3', '4', '5', '6', 'th', 'fo', 'fh', 'ls', 'hs', 'y']
+    while True:
+        box = input("Select which box you want to use - see Scoreboard")
+        # Check that box input is in the list of box_options
+        if box not in box_options:
+            print('Try again...\U0001F644')
+        else:
+            box = box.lower()
+            points(box, dice)
 
 
 def points(box, dice):
     '''Calculates points scored'''
-    
+
     if box == '1':
         score = sum(die == 1 for die in dice)
     if box == '2':
@@ -188,16 +191,33 @@ def points(box, dice):
             else:
                 score = 0
     if box == 'ls':
-        dice = dice.sort()
+        dice.sort()
         unique_dice = set(dice)
-        if unique_dice == [1, 2, 3, 4] or unique_dice == [2, 3, 4, 5] or unique_dice == [3, 4, 5, 6]:
+        unique_dice_sets = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
+        if unique_dice in unique_dice_sets:
             score = 30
+        else:
+            score = 0
+    if box == 'hs':
+        dice.sort()
+        unique_dice = set(dice)
+        unique_dice_sets = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
+        if unique_dice in unique_dice_sets:
+            score = 40
+        else:
+            score = 0
     if box == 'y':
-        if len(set(dice)) == 5:
+        if len(dice) - len(set(dice)) == 0:
             score = 50
-    input(f'You score {score} for this. Happy?')
+        else:
+            score = 0
+    points_input = input(f'You score {score} for this. Happy?')
     # Validate user input to go here then update_scoreboard
-    update_scoreboard(box,score)
+    if points_input == "y":
+        update_scoreboard(box, score)
+    else:
+        submit(dice)
+
 
 def display_scoreboard():
     '''Holds the scores'''
@@ -206,11 +226,12 @@ def display_scoreboard():
     print(f'Scoreboard{scoreboard}')
 
 
-def update_scoreboard(box,score):
+def update_scoreboard(box, score):
     '''Updates the scoreboard'''
     clear_display()
     scoreboard = []
     print(f'Scoreboard{scoreboard}')
+
 
 # Main code block
 home()
