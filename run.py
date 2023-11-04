@@ -150,55 +150,65 @@ def submit(dice, roll):
     Then resets dice and roll before calling roll_one.
     '''
     box = input('Select which Scoreboard box you want to use.')
-    scoreboard()
+    box = box.lower()
+    # Validation to go here
+
+    display_scoreboard()
 
     points(box, dice)
-
-    # Reset dice and roll values before reroll
-    dice = 0
-    roll = 0
-    roll_one(roll)
 
 
 def points(box, dice):
     '''Calculates points scored'''
+    
     if box == '1':
         score = sum(die == 1 for die in dice)
-        return score
     if box == '2':
-        score = sum(die == 2 for die in dice)
-        return score
+        score = 2 * sum(die == 2 for die in dice)
     if box == '3':
-        score = sum(die == 3 for die in dice)
-        return score
+        score = 3 * sum(die == 3 for die in dice)
     if box == '4':
-        score = sum(die == 4 for die in dice)
-        return score
+        score = 4 * sum(die == 4 for die in dice)
     if box == '5':
-        score = sum(die == 5 for die in dice)
-        return score
+        score = 5 * sum(die == 5 for die in dice)
     if box == '6':
-        score = sum(die == 6 for die in dice)
-        return score
+        score = 6 * sum(die == 6 for die in dice)
     if box == 'th':
-        if len(set(dice)) <= 3:
-            score = sum(dice)
-            return score
-        else:
-            return 0
+        for die in set(dice):
+            if dice.count(die) >= 3:
+                score = sum(dice)
+            else:
+                score = 0
     if box == 'fo':
-        if len(set(dice)) <= 4:
-            score = sum(dice)
-            return score
-        else:
-            return 0
+        for die in set(dice):
+            if dice.count(die) >= 4:
+                score = sum(dice)
+            else:
+                score = 0
+    if box == 'ls':
+        dice = dice.sort()
+        unique_dice = set(dice)
+        if unique_dice == [1, 2, 3, 4] or unique_dice == [2, 3, 4, 5] or unique_dice == [3, 4, 5, 6]:
+            score = 30
+    if box == 'y':
+        if len(set(dice)) == 5:
+            score = 50
+    input(f'You score {score} for this. Happy?')
+    # Validate user input to go here then update_scoreboard
+    update_scoreboard(box,score)
 
-
-def scoreboard():
+def display_scoreboard():
     '''Holds the scores'''
+    clear_display()
     scoreboard = []
-    print(scoreboard)
+    print(f'Scoreboard{scoreboard}')
 
+
+def update_scoreboard(box,score):
+    '''Updates the scoreboard'''
+    clear_display()
+    scoreboard = []
+    print(f'Scoreboard{scoreboard}')
 
 # Main code block
 home()
