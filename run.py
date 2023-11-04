@@ -152,7 +152,7 @@ def submit(dice):
     
     box_options = ['1', '2', '3', '4', '5', '6', 'th', 'fo', 'fh', 'ls', 'hs', 'y']
     while True:
-        box = input("Select which box you want to use - see Scoreboard")
+        box = input("Enter box 'key' you want to use (see Scoreboard): ")
         # Check that box input is in the list of box_options
         if box not in box_options:
             print('Try again...\U0001F644')
@@ -190,6 +190,11 @@ def points(box, dice):
                 break
             else:
                 score = 0
+    if box == 'fh':
+        if len(set(dice)) == 2 and (dice.count(die) == 3 for die in dice):
+            score = 25
+        else:
+            score = 0
     if box == 'ls':
         dice.sort()
         unique_dice = set(dice)
@@ -211,7 +216,8 @@ def points(box, dice):
             score = 50
         else:
             score = 0
-    points_input = input(f'You score {score} for this. Happy?')
+    points_input = input(f"You score {score} for this. Enter 'y' to accept: ")
+    
     # Validate user input to go here then update_scoreboard
     if points_input == "y":
         update_scoreboard(box, score)
