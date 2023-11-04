@@ -47,7 +47,7 @@ def home():
 def leaderboard():
     '''Generates a leaderboard from Google Sheet.'''
     print('Leaderboard (top 10) to go here')
-    leaderboard_input = input('Press Enter to return Home')
+    input('Press Enter to return Home')
     home()
 
 
@@ -147,10 +147,11 @@ def submit(dice):
     Evaluates score and adds to scoreboard once user selects box.
     Then resets dice and roll before calling roll_one.
     '''
-    display_scoreboard()
+    display_scoreboard(scores)
     print(f'Your dice are: {dice}')
-    
-    box_options = ['1', '2', '3', '4', '5', '6', 'th', 'fo', 'fh', 'ls', 'hs', 'y']
+
+    box_options = [
+        '1', '2', '3', '4', '5', '6', 'th', 'fo', 'fh', 'ls', 'hs', 'y', 'c']
     while True:
         box = input("Enter box 'key' you want to use (see Scoreboard): ")
         # Check that box input is in the list of box_options
@@ -159,6 +160,16 @@ def submit(dice):
         else:
             box = box.lower()
             points(box, dice)
+
+
+def display_scoreboard(scores):
+    categories = ['Aces', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes']
+    scoreboard = 'Upper Section\n'
+
+    for i, category in enumerate(categories):
+        scoreboard += f'Count and add only {category}   | {scores[i]}\n'
+    print("\nHere's your Scoreboard:\n")
+    print(scoreboard)
 
 
 def points(box, dice):
@@ -216,28 +227,58 @@ def points(box, dice):
             score = 50
         else:
             score = 0
+    if box == 'c':
+        score = sum(dice)
+
     points_input = input(f"You score {score} for this. Enter 'y' to accept: ")
-    
+
     # Validate user input to go here then update_scoreboard
     if points_input == "y":
-        update_scoreboard(box, score)
+        update_category(box, score)
     else:
         submit(dice)
 
 
-def display_scoreboard():
-    '''Holds the scores'''
-    clear_display()
-    scoreboard = []
-    print(f'Scoreboard{scoreboard}')
+def update_category(box, score):
+
+    if box == '1':
+        scores[0] = score
+        update_scoreboard(scores)
+    elif box == '2':
+        scores[1] = score
+        update_scoreboard(scores)
+    elif box == '3':
+        scores[2] = score
+        update_scoreboard(scores)
+    elif box == '4':
+        scores[3] = score
+        update_scoreboard(scores)
+    elif box == '5':
+        scores[4] = score
+        update_scoreboard(scores)
+    elif box == '6':
+        scores[5] = score
+        update_scoreboard(scores)
+    else:
+        pass
 
 
-def update_scoreboard(box, score):
-    '''Updates the scoreboard'''
-    clear_display()
-    scoreboard = []
-    print(f'Scoreboard{scoreboard}')
+def update_scoreboard(scores):
+    categories = ['Aces', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes']
+    scoreboard = 'Upper Section\n'
+
+    for i, category in enumerate(categories):
+        scoreboard += f'Count and add only {category}   | {scores[i]}\n'
+
+    print(scoreboard)
+    update_scoreboard_input = input("Here's your scoreboard - "
+                                    "Enter to roll again")
+    if update_scoreboard_input == "":
+        roll_one
+    else:
+        home()
 
 
 # Main code block
+scores = ['x', 'x', 'x', 'x', 'x', 'x']
 home()
