@@ -64,6 +64,7 @@ def roll_one(roll):
     face values
     """
     clear_display()
+    display_scoreboard(scores)
     dice = []
     for die in range(5):
         die = random.randint(1, 6)
@@ -79,8 +80,8 @@ def user_prompt(dice, roll):
 
     # Check if the user has taken 3 rolls.
     if roll >= 3:
-        print(f'You have taken 3 rolls and your dice are: {dice}\n'
-              'Time to submit your score!')
+        input(f'You have taken 3 rolls and your dice are: {dice}\n'
+              'Time to submit your score! Press Enter')
         submit(dice)
     # Advises user of dice and asks for valid unput
     print(f'After roll {roll} ({remain} remaining), your dice are: {dice}\n'
@@ -93,6 +94,7 @@ def user_prompt(dice, roll):
         elif game_choice == 'e':
             home()
         elif game_choice == 's':
+            clear_display()
             submit(dice)
         else:
             keep_choice(dice, roll)
@@ -147,6 +149,7 @@ def submit(dice):
     Evaluates score and adds to scoreboard once user selects box.
     Then resets dice and roll before calling roll_one.
     '''
+    clear_display
     display_scoreboard(scores)
     print(f'Your dice are: {dice}')
 
@@ -163,12 +166,33 @@ def submit(dice):
 
 
 def display_scoreboard(scores):
-    categories = ['Aces', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes']
+    categories = ["Aces '1'   |", 
+              "Twos '2'   |", 
+              "Threes '3' |", 
+              "Fours '4'  |", 
+              "Fives '5'  |", 
+              "Sixes '6'  |", 
+              "3 of a kind 'th' - sum all dice |", 
+              "4 of a kind 'fo' - sum all dice |", 
+              "Full House 'fh' = 25            |", 
+              "Low Straight 'ls' = 30          |", 
+              "High Straight 'hs' = 40         |", 
+              "Yahtzee 'y' = 50                |", 
+              "Chance 'c' - sum all dice       |"]
+
     scoreboard = 'Upper Section\n'
 
     for i, category in enumerate(categories):
-        scoreboard += f'Count and add only {category}   | {scores[i]}\n'
-    print("\nHere's your Scoreboard:\n")
+        if i < 6:
+            scoreboard += f'Count and add only {category} {scores[i]}\n'
+
+    scoreboard += '\nLower Section\n'
+
+    for i, category in enumerate(categories):
+        if i > 5:
+            scoreboard += f'{category} {scores[i]}\n'
+
+    print("Here's your Scoreboard:\n")
     print(scoreboard)
 
 
@@ -230,7 +254,8 @@ def points(box, dice):
     if box == 'c':
         score = sum(dice)
 
-    points_input = input(f"You score {score} for this. Enter 'y' to accept: ")
+    points_input = input(
+        f"This scores {score}. Enter 'y' to accept or anything else not to: ")
 
     # Validate user input to go here then update_scoreboard
     if points_input == "y":
@@ -259,26 +284,70 @@ def update_category(box, score):
     elif box == '6':
         scores[5] = score
         update_scoreboard(scores)
+    if box == 'th':
+        scores[6] = score
+        update_scoreboard(scores)
+    elif box == 'fo':
+        scores[7] = score
+        update_scoreboard(scores)
+    elif box == 'fh':
+        scores[8] = score
+        update_scoreboard(scores)
+    elif box == 'ls':
+        scores[9] = score
+        update_scoreboard(scores)
+    elif box == 'hs':
+        scores[10] = score
+        update_scoreboard(scores)
+    elif box == 'y':
+        scores[11] = score
+        update_scoreboard(scores)
+    elif box == 'c':
+        scores[12] = score
+        update_scoreboard(scores)
     else:
         pass
 
 
 def update_scoreboard(scores):
-    categories = ['Aces', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes']
+    clear_display()
+    print("Here's your updated scoreboard:\n")
+
+    categories = ["Aces '1'   |", 
+            "Twos '2'   |", 
+            "Threes '3' |", 
+            "Fours '4'  |", 
+            "Fives '5'  |", 
+            "Sixes '6'  |", 
+            "3 of a kind 'th'   = sum all dice |", 
+            "4 of a kind 'fo'   = sum all dice |", 
+            "Full House 'fh'    = 25           |", 
+            "Low Straight 'ls'  = 30           |", 
+            "High Straight 'hs' = 40           |", 
+            "Yahtzee 'y'        = 50           |", 
+            "Chance 'c'         = sum all dice |"]
+
     scoreboard = 'Upper Section\n'
 
     for i, category in enumerate(categories):
-        scoreboard += f'Count and add only {category}   | {scores[i]}\n'
+        if i < 6:
+            scoreboard += f'Count and add only {category} {scores[i]}\n'
+
+    scoreboard += '\nLower Section\n'
+
+    for i, category in enumerate(categories):
+        if i > 5:
+            scoreboard += f'{category} {scores[i]}\n'
 
     print(scoreboard)
-    update_scoreboard_input = input("Here's your scoreboard - "
-                                    "Enter to roll again")
+    update_scoreboard_input = input("Enter to roll again")
     if update_scoreboard_input == "":
-        roll_one
+        roll = 0
+        roll_one(roll)
     else:
         home()
 
 
 # Main code block
-scores = ['x', 'x', 'x', 'x', 'x', 'x']
+scores = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
 home()
