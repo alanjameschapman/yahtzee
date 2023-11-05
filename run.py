@@ -209,10 +209,10 @@ def display_scoreboard(scores):
         if i > 5:
             scoreboard += f'{category} {scores[i]}\n'
 
-    scoreboard += f'Total............................ | {lower_section_total}\n' \
-                  f'Grand Total...................... | {grand_total}\n'
+    scoreboard += f'Total............................ | {lower_section_total}\n'\
+                  f'\nGrand Total...................... | {grand_total}\n'
 
-    print("Here's your Scoreboard:\n")
+    # print("Here's your Scoreboard:\n")
     print(scoreboard)
 
 
@@ -252,7 +252,7 @@ def points(box, dice):
             score = 0
     if box == 'ls':
         dice.sort()
-        unique_dice = set(dice)
+        unique_dice = list(set(dice))
         unique_dice_sets = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
         if unique_dice in unique_dice_sets:
             score = 30
@@ -260,7 +260,7 @@ def points(box, dice):
             score = 0
     if box == 'hs':
         dice.sort()
-        unique_dice = set(dice)
+        unique_dice = list(set(dice))
         unique_dice_sets = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
         if unique_dice in unique_dice_sets:
             score = 40
@@ -306,26 +306,26 @@ def update_category(box, score):
     elif box == '6':
         scores[5] = score
         update_scoreboard(scores)
-    if box == 'th':
-        scores[9] = score
+    elif box == 'th':
+        scores[6] = score
         update_scoreboard(scores)
     elif box == 'fo':
-        scores[10] = score
+        scores[7] = score
         update_scoreboard(scores)
     elif box == 'fh':
-        scores[11] = score
+        scores[8] = score
         update_scoreboard(scores)
     elif box == 'ls':
-        scores[12] = score
+        scores[9] = score
         update_scoreboard(scores)
     elif box == 'hs':
-        scores[13] = score
+        scores[10] = score
         update_scoreboard(scores)
     elif box == 'y':
-        scores[14] = score
+        scores[11] = score
         update_scoreboard(scores)
     elif box == 'c':
-        scores[15] = score
+        scores[12] = score
         update_scoreboard(scores)
     else:
         pass
@@ -333,7 +333,7 @@ def update_category(box, score):
 
 def update_scoreboard(scores):
     clear_display()
-    print("Here's your updated scoreboard:\n")
+    # print("Here's your updated scoreboard:\n")
 
     results = 0
 
@@ -370,7 +370,7 @@ def update_scoreboard(scores):
     scoreboard += f'Total......................... | {upper_total}\n' \
                   f'More than 63 scores a 35 Bonus | {upper_bonus}\n' \
                   f'Total of Upper Section........ | {upper_section_total}\n'
-    
+
     scoreboard += '\nLower Section\n'
 
     for i, category in enumerate(categories):
@@ -378,7 +378,7 @@ def update_scoreboard(scores):
             scoreboard += f'{category} {scores[i]}\n'
 
     scoreboard += f'Total............................ | {lower_section_total}\n' \
-                  f'Grand Total...................... | {grand_total}\n'
+                  f'\nGrand Total...................... | {grand_total}\n'
 
     print(scoreboard)
     update_scoreboard_input = input("Enter to roll again")
@@ -401,22 +401,23 @@ def extras(scores):
     grand_total = 0
 
     # Calculates upper total from first 6 indices
-    for score in scores[:4]:
+    for score in scores[:6]:
         if not str(score).isalpha():
             upper_total += int(score)
 
     # Checks if upper bonus applies
-    if upper_total >= 63:
-        upper_bonus = 35
+    if not str(upper_total).isalpha():
+        if upper_total >= 63:
+            upper_bonus = 35
 
-    # Calculates upper section total including bonus 
+    # Calculates upper section total including bonus
     if upper_bonus == 35:
         upper_section_total = upper_total + upper_bonus
     else:
         upper_section_total = upper_total
 
     # Calculates lower total from lower section
-    for score in scores[9:15]:
+    for score in scores[6:13]:
         if not str(score).isalpha():
             lower_section_total += int(score)
 
@@ -433,8 +434,5 @@ def extras(scores):
 
 
 # Main code block
-scores = ['x', 'x', 'x', 'x', 'x', 'x',
-'x', 'x', 'x',
-'x', 'x', 'x', 'x', 'x', 'x', 'x',
-'x', 'x']
+scores = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
 home()
