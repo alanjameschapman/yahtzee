@@ -209,8 +209,10 @@ def display_scoreboard(scores):
         if i > 5:
             scoreboard += f'{category} {scores[i]}\n'
 
-    scoreboard += f'Total............................ | {lower_section_total}\n'\
-                  f'\nGrand Total...................... | {grand_total}\n'
+    scoreboard += f'Total............................ | \
+                    {lower_section_total}\n'\
+                  f'\nGrand Total...................... | \
+                    {grand_total}\n'
 
     # print("Here's your Scoreboard:\n")
     print(scoreboard)
@@ -236,8 +238,8 @@ def points(box, dice):
             if dice.count(die) >= 3:
                 score = sum(dice)
                 break
-            else:
-                score = 0
+        else:
+            score = 0
     if box == 'fo':
         for die in set(dice):
             if dice.count(die) >= 4:
@@ -253,24 +255,16 @@ def points(box, dice):
     if box == 'ls':
         dice.sort()
         unique_dice = list(set(dice))
-        unique_dice_sets = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
-        if unique_dice in unique_dice_sets:
-            score = 30
-        else:
-            score = 0
+        unique_dice_sets = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6],
+                            [1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
+        score = 30 if unique_dice in unique_dice_sets else 0
     if box == 'hs':
         dice.sort()
         unique_dice = list(set(dice))
         unique_dice_sets = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
-        if unique_dice in unique_dice_sets:
-            score = 40
-        else:
-            score = 0
+        score = 40 if unique_dice in unique_dice_sets else 0
     if box == 'y':
-        if len(dice) - len(set(dice)) == 0:
-            score = 50
-        else:
-            score = 0
+        score = 50 if len(set(dice)) == 1 else 0
     if box == 'c':
         score = sum(dice)
 
@@ -377,8 +371,10 @@ def update_scoreboard(scores):
         if i > 5:
             scoreboard += f'{category} {scores[i]}\n'
 
-    scoreboard += f'Total............................ | {lower_section_total}\n' \
-                  f'\nGrand Total...................... | {grand_total}\n'
+    scoreboard += f'Total............................ | \
+                    {lower_section_total}\n' \
+                  f'\nGrand Total...................... | \
+                    {grand_total}\n'
 
     print(scoreboard)
     update_scoreboard_input = input("Enter to roll again")
