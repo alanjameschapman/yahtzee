@@ -7,23 +7,19 @@ import os
 def clear_display():
     '''Clears the display'''
     # Taken from https://www.delftstack.com/howto/python/python-clear-console/
-    command = 'clear'
-    if os.name in (
-            'nt', 'dos'):  # If Machine is running on Windows, use cls
-        command = 'cls'
-    os.system(command)
+    os.system('cls' if os.name == 'nt' else "clear")
 
 
 def home():
     '''Displays home screen and user prompt for leaderboard, rules or game.'''
     clear_display()
     print('''
-          __     __      _    _ _______ ____________ ______ 
-          \ \   / //\   | |  | |__   __|___  /  ____|  ____|
-           \ \_/ //  \  | |__| |  | |     / /| |__  | |__   
-            \   // /\ \ |  __  |  | |    / / |  __| |  __|  
-             | |/ ____ \| |  | |  | |   / /__| |____| |____ 
-             |_/_/    \_\_|  |_|  |_|  /_____|______|______|
+          __     __      _    _ _______ ____________ ______
+          \\ \\   / //\\   | |  | |__   __|___  /  ____|  ____|
+           \\ \\_/ //  \\  | |__| |  | |     / /| |__  | |__
+            \\   // /\\ \\ |  __  |  | |    / / |  __| |  __|
+             | |/ ____ \\| |  | |  | |   / /__| |____| |____
+             |_/_/    \\_\\_|  |_|  |_|  /_____|______|______|
           ''')
 
     # Loops until valid input given
@@ -308,6 +304,7 @@ def points(box, dice):
 
 
 def update_category(box, score):
+    '''Defines which box should be updated by the update_scoreboard function'''
 
     if box == '1':
         scores[0] = score
@@ -353,10 +350,10 @@ def update_category(box, score):
 
 
 def update_scoreboard(scores):
+    '''Updates relevant box within scoreboard'''
+
     clear_display()
-
     results = 0
-
     categories = [
         "Aces '1'    |",
         "Twos '2'    |",
@@ -457,4 +454,6 @@ def extras(scores):
 
 # Main code block
 scores = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
-home()
+if __name__ == '__main__':
+    ''' Python app initialised, call the first function '''
+    home()
