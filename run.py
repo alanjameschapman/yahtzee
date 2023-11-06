@@ -82,6 +82,7 @@ def user_prompt(dice, roll):
     if roll >= 3:
         input(f'You have taken 3 rolls and your dice are: {dice}\n'
               'Time to submit your score! Press Enter')
+        clear_display()
         submit(dice)
     # Advises user of dice and asks for valid unput
     print(f'After roll {roll} ({remain} remaining), your dice are: {dice}\n'
@@ -148,7 +149,7 @@ def submit(dice):
     Evaluates score and adds to scoreboard once user selects box.
     Then resets dice and roll before calling roll_one.
     '''
-    clear_display()
+
     display_scoreboard(scores)
     print(f'Your dice are: {dice}')
 
@@ -210,11 +211,10 @@ def display_scoreboard(scores):
             scoreboard += f'{category} {scores[i]}\n'
 
     scoreboard += f'Total............................ | \
-                    {lower_section_total}\n'\
+{lower_section_total}\n'\
                   f'\nGrand Total...................... | \
-                    {grand_total}\n'
+{grand_total}\n'
 
-    # print("Here's your Scoreboard:\n")
     print(scoreboard)
 
 
@@ -271,12 +271,11 @@ def points(box, dice):
     points_input = input(
         f"This scores {score}. Enter 'y' to accept or anything else not to: ")
 
-    clear_display()
-
     # Validate user input to go here then update_scoreboard
     if points_input == "y":
         update_category(box, score)
     else:
+        clear_display()
         submit(dice)
 
 
@@ -327,7 +326,6 @@ def update_category(box, score):
 
 def update_scoreboard(scores):
     clear_display()
-    # print("Here's your updated scoreboard:\n")
 
     results = 0
 
@@ -372,9 +370,9 @@ def update_scoreboard(scores):
             scoreboard += f'{category} {scores[i]}\n'
 
     scoreboard += f'Total............................ | \
-                    {lower_section_total}\n' \
+{lower_section_total}\n' \
                   f'\nGrand Total...................... | \
-                    {grand_total}\n'
+{grand_total}\n'
 
     print(scoreboard)
     update_scoreboard_input = input("Enter to roll again")
