@@ -16,7 +16,16 @@ def clear_display():
 
 def home():
     '''Displays home screen and user prompt for leaderboard, rules or game.'''
-    print('ASCII art goes here')
+    clear_display()
+    print('''
+          __     __      _    _ _______ ____________ ______ 
+          \ \   / //\   | |  | |__   __|___  /  ____|  ____|
+           \ \_/ //  \  | |__| |  | |     / /| |__  | |__   
+            \   // /\ \ |  __  |  | |    / / |  __| |  __|  
+             | |/ ____ \| |  | |  | |   / /__| |____| |____ 
+             |_/_/    \_\_|  |_|  |_|  /_____|______|______|
+          ''')
+
     # Loops until valid input given
     while True:
         home_input = input(
@@ -53,7 +62,25 @@ def leaderboard():
 
 def rules():
     '''Displays rules. Clear screen method used to move to next page.'''
-    print('Rules to go here...')
+    clear_display()
+    print('''
+Single Player Yahtzee Rules:
+1. Objective: Score as high as possible by rolling five dice.
+2. Turns: You have up to 3 rolls per turn to achieve the best score.
+3. Scoring Categories: Upper Section (Aces, Twos, Threes, Fours, Fives, Sixes)
+   and Lower Section (3 of a Kind, 4 of a Kind, Full House, Low Straight,
+   High Straight, Yahtzee, Chance).
+4. Upper Section: Score the sum of matching dice (e.g., Aces = sum of 1s).
+5. Lower Section: Specific patterns (e.g., Full House = 3 of one number and 2
+   of another).
+6. Yahtzee: 5 of a kind scores 50 points; subsequent Yahtzees earn 100 points.
+7. Chance: Sum of all dice.
+8. Bonus: If upper section score > 63, earn a 35-point bonus.
+9. Strategy: Plan your moves to maximize points in the right categories.
+10. Winning: Try to beat your own high score!
+
+    ''')
+    display_scoreboard(scores)
     input('Press Enter to return Home')
     home()
 
