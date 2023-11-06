@@ -1,4 +1,3 @@
-# 80 characters wide and 24 rows high max
 # Imports used to generate dice rolls and for clear_display()
 import random
 import os
@@ -25,12 +24,12 @@ def home():
     # Loops until valid input given
     while True:
         home_input = input(
-            "Type 'l' for leaderboard, 'r' for rules, or 'p' to play.\n"
+            "Enter 'l' for leaderboard, 'r' for rules, or 'p' to play.\n"
             "Your choice: ")
         home_input = home_input.lower()
         # Validates input and prompts until valid.
         if home_input not in ['l', 'r', 'p']:
-            print('Try again...\U0001F644')
+            print(f"'{home_input}' invalid'. Enter only 'l', 'r' or 'p'.")
         else:
             if home_input == 'l':
                 leaderboard()
@@ -39,11 +38,12 @@ def home():
             else:
                 while True:
                     name = input('Please enter your name: ')
-                    if name == "":
-                        print('Try again...\U0001F644')
+                    if not name.isalpha():
+                        print(f"'{name}' invalid. \
+Enter only alphabetical characters.")
                     else:
                         name = name.capitalize()
-                        input(f"OK {name}, let's play Yahtzee!\n"
+                        input(f"OK '{name}', let's play Yahtzee!\n"
                               'Hit Enter to roll dice...')
                         roll = 0
                         roll_one(roll)
@@ -52,7 +52,7 @@ def home():
 def leaderboard():
     '''Generates a leaderboard from Google Sheet.'''
     print('Leaderboard (top 10) to go here')
-    input('Press Enter to return Home')
+    input('Press Enter to return Home...')
     home()
 
 
@@ -78,7 +78,7 @@ Single Player Yahtzee Rules:
 
     ''')
 
-    input('Scroll up for Scoreboard and press Enter to return Home. ')
+    input('Scroll up for Scoreboard and press Enter to return Home...')
     home()
 
 
@@ -115,7 +115,7 @@ def user_prompt(dice, roll):
         game_choice = input('Your choice: ')
         game_choice = game_choice.lower()
         if game_choice not in ['r', 's', 'e']:
-            print('Try again...\U0001F644')
+            print(f"'{game_choice}' invalid. Enter only 'r', 's' or 'e'.")
         elif game_choice == 'e':
             home()
         elif game_choice == 's':
@@ -129,27 +129,27 @@ def keep_choice(dice, roll):
     '''Takes dice and roll arg from previous roll and prompts the user to
     input which dice should be kept. Returns a list of integers to retain.'''
 
-    print('Which dice do you want to keep? Enter numbers separated by spaces.')
+    print('''Which dice do you want to keep? Enter only numbers 1-5 separated
+ by spaces.''')
     # Prompt the user to input which dice to keep.
     while True:
-        dice_to_keep = input('Your choice:')
+        dice_to_keep = input('Your choice: ')
 
-        # Check if the string is empty.
-        if dice_to_keep == "":
-            print('Try again...\U0001F644')
-        # Check if the string contains letters.
-        elif any(char.isalpha() for char in dice_to_keep):
-            print('Try again...\U0001F644')
+        # Check if the string is empty or contains letters.
+        if dice_to_keep == "" or any(char.isalpha() for char in dice_to_keep):
+            print(f"'{dice_to_keep}' invalid. \
+Enter only numbers 1-5 separated by spaces.")
         else:
             # Split the input string into a list of integers.
             dice_to_keep = [int(i) for i in dice_to_keep.split()]
 
             # Check if any die values are out of range (1 to 5).
             if any(die < 1 or die > 5 for die in dice_to_keep):
-                print('Enter numbers between 1 and 5.')
+                print(f"'{dice_to_keep}' invalid. \
+Enter only numbers 1-5 separated by spaces.")
             else:
                 keep_and_reroll(dice, roll, dice_to_keep)
-                break
+                # break
 
 
 def keep_and_reroll(dice, roll, dice_to_keep):
@@ -183,7 +183,8 @@ def submit(dice):
         box = input("Enter box 'key' you want to use (see Scoreboard): ")
         # Check that box input is in the list of box_options
         if box not in box_options:
-            print('Try again...\U0001F644')
+            print(f"'{box}' invalid. Enter box 'key' you want to use \
+(see Scoreboard): ")
         else:
             box = box.lower()
             points(box, dice)
@@ -296,6 +297,7 @@ def points(box, dice):
         f"This scores {score}. Enter 'y' to accept or anything else not to: ")
 
     # Validate user input to go here then update_scoreboard
+    points_input.lower()
     if points_input == "y":
         update_category(box, score)
     else:
@@ -400,12 +402,9 @@ def update_scoreboard(scores):
 {grand_total}\n'
 
     print(scoreboard)
-    update_scoreboard_input = input("Enter to roll again")
-    if update_scoreboard_input == "":
-        roll = 0
-        roll_one(roll)
-    else:
-        home()
+    input("Enter to roll again...")
+    roll = 0
+    roll_one(roll)
 
 
 def extras(scores):
