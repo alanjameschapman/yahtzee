@@ -63,6 +63,7 @@ def leaderboard():
 def rules():
     '''Displays rules. Clear screen method used to move to next page.'''
     clear_display()
+    display_scoreboard(scores)
     print('''
 Single Player Yahtzee Rules:
 1. Objective: Score as high as possible by rolling five dice.
@@ -80,8 +81,8 @@ Single Player Yahtzee Rules:
 10. Winning: Try to beat your own high score!
 
     ''')
-    display_scoreboard(scores)
-    input('Press Enter to return Home')
+
+    input('Scroll up for Scoreboard and press Enter to return Home. ')
     home()
 
 
