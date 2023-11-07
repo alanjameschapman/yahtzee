@@ -423,9 +423,15 @@ def update_scoreboard(scores):
 {grand_total}\n'
 
     print(scoreboard)
-    input("Enter to roll again...")
-    roll = 0
-    roll_one(roll)
+    
+    if 'x' in scores:
+        input("Enter to roll again...")
+        roll = 0
+        roll_one(roll)
+    else:
+        input(f"Congratulations! You have completed all boxes.\n\
+Your final score is {grand_total}. Press Enter to return home. ")
+        home()
 
 
 def extras(scores):
