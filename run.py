@@ -14,7 +14,6 @@ def clear_display():
 
 def home():
     '''Displays home screen and user prompt for leaderboard, rules or game.'''
-    global name
     clear_display()
     print('''
           __     __      _    _ _______ ____________ ______
@@ -28,16 +27,14 @@ def home():
     # Loops until valid input given
     while True:
         home_input = input(
-            "Enter 'l' for leaderboard, 'r' for rules, or 'p' to play.\n"
+            "Enter 'r' for rules, or 'p' to play.\n"
             "Your choice: ")
         home_input = home_input.lower()
         # Validates input and prompts until valid.
-        if home_input not in ['l', 'r', 'p']:
-            print(f"'{home_input}' invalid'. Enter only 'l', 'r' or 'p'.")
+        if home_input not in ['r', 'p']:
+            print(f"'{home_input}' invalid'. Enter only 'r' or 'p'.")
         else:
-            if home_input == 'l':
-                leaderboard()
-            elif home_input == 'r':
+            if home_input == 'r':
                 rules()
             else:
                 while True:
@@ -52,33 +49,33 @@ def home():
                         roll_one(roll)
 
 
-def leaderboard():
-    '''Generates a leaderboard from Google Sheet.'''
-    print('Leaderboard (top 10) to go here')
-    input('Press Enter to return Home...')
-    home()
+def personal_best(name, grand_total):
+    '''Checks for PB for current session'''
+    global name
+    if grand_total > personal_best:
+        global personal_best
+        personal_best = grand_total
+        input(f'Congratulations {name}, you have set a new PB of {grand_total}. Press Enter to roll the dice'). # noqa
+        roll_one()
+    else:
+        input(f'Hard lines {name}, your high score remains {personal_best}. Press Enter to roll the dice') # noqa
+        roll_one()
 
 
 def rules():
     '''Displays rules. Clear screen method used to move to next page.'''
     clear_display()
     display_scoreboard(scores)
-    print('''
-Single Player Yahtzee Rules:
-1. Objective: Score as high as possible by rolling five dice.
-2. Turns: You have up to 3 rolls per turn to achieve the best score.
-3. Scoring Categories: Upper Section (Aces, Twos, Threes, Fours, Fives, Sixes)
-   and Lower Section (3 of a Kind, 4 of a Kind, Full House, Low Straight,
-   High Straight, Yahtzee, Chance).
-4. Upper Section: Score the sum of matching dice (e.g., Aces = sum of 1s).
-5. Lower Section: Specific patterns (e.g., Full House = 3 of one number and 2
-   of another).
-6. Yahtzee: 5 of a kind scores 50 points; subsequent Yahtzees earn 100 points.
-7. Chance: Sum of all dice.
-8. Bonus: If upper section score > 63, earn a 35-point bonus.
-9. Strategy: Plan your moves to maximize points in the right categories.
-10. Winning: Try to beat your own high score!
-
+    print('''Single Player Yahtzee Rules:
+- Objective: Score as high as possible by rolling five dice.
+- Turns: You have up to 3 rolls per turn to achieve the best score.
+- Scoring Categories: Upper Section (Aces, Twos, Threes, Fours, Fives, Sixes) and Lower Section (3 of a Kind, 4 of a Kind, Full House, Low Straight, High Straight, Yahtzee, Chance).  # noqa
+- Upper Section: Score the sum of matching dice (e.g., Aces = sum of 1s).
+- Lower Section: Specific patterns (e.g., Full House = 3 of one number and 2 of another).
+- Yahtzee: 5 of a kind scores 50 points.
+- Chance: Sum of all dice.
+- Bonus: If upper section score > 63, earn a 35-point bonus.
+- Strategy: Plan your moves to maximize points in the right categories.
     ''')
 
     input('Scroll up for Scoreboard and press Enter to return Home...')
@@ -418,7 +415,7 @@ def update_scoreboard(scores):
     else:
         input(f"Congratulations {name}! You have completed all boxes.\n\
 Your final score is {grand_total}. Press Enter to return home. ")
-        home()
+        personal_best(name, grand_total)
 
 
 def extras(scores):
@@ -466,6 +463,7 @@ def extras(scores):
 
 
 # Main code block
+personal_best = 0
 scores = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
 if __name__ == '__main__':
     ''' Python app initialised, call the first function '''
