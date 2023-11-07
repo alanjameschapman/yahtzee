@@ -1,6 +1,9 @@
 # Imports used to generate dice rolls and for clear_display()
 import random
 import os
+import colorama
+from colorama import Fore, Back, Style
+colorama.init(autoreset=True)
 
 
 def clear_display():
@@ -180,11 +183,13 @@ def submit(dice):
     box_options = [
         '1', '2', '3', '4', '5', '6', 'th', 'fo', 'fh', 'ls', 'hs', 'y', 'c']
     while True:
-        box = input("Enter box 'key' you want to use (see Scoreboard): ")
+        box = input(f"Enter box \
+{Fore.GREEN+Style.BRIGHT}'key'{Fore.RESET+Style.NORMAL} \
+you want to use (see Scoreboard): ")
         # Check that box input is in the list of box_options
         if box not in box_options:
-            print(f"'{box}' invalid. Enter box 'key' you want to use \
-(see Scoreboard): ")
+            print(f"'{box}' invalid. Enter box {Fore.GREEN+Style.BRIGHT}'key'\
+{Fore.RESET+Style.NORMAL} you want to use (see Scoreboard): ")
         else:
             box = box.lower()
             points(box, dice)
@@ -193,23 +198,27 @@ def submit(dice):
 def display_scoreboard(scores):
     '''Displays scoreboard'''
 
-    # Initializes extras
-    results = 0
-
     categories = [
-        "Aces '1'    |",
-        "Twos '2'    |",
-        "Threes '3'  |",
-        "Fours '4'   |",
-        "Fives '5'   |",
-        "Sixes '6'   |",
-        "3 of a kind 'th'   = sum all dice |",
-        "4 of a kind 'fo'   = sum all dice |",
-        "Full House 'fh'.   = 25.......... |",
-        "Low Straight 'ls'  = 30.......... |",
-        "High Straight 'hs' = 40.......... |",
-        "Yahtzee 'y'......  = 50.......... |",
-        "Chance 'c'.......  = sum all dice |"]
+        f"Aces {Fore.GREEN+Style.BRIGHT}'1'{Fore.RESET+Style.NORMAL}    |",
+        f"Twos {Fore.GREEN+Style.BRIGHT}'2'{Fore.RESET+Style.NORMAL}    |",
+        f"Threes {Fore.GREEN+Style.BRIGHT}'3'{Fore.RESET+Style.NORMAL}  |",
+        f"Fours {Fore.GREEN+Style.BRIGHT}'4'{Fore.RESET+Style.NORMAL}   |",
+        f"Fives {Fore.GREEN+Style.BRIGHT}'5'{Fore.RESET+Style.NORMAL}   |",
+        f"Sixes {Fore.GREEN+Style.BRIGHT}'6'{Fore.RESET+Style.NORMAL}   |",
+        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL}\
+   = sum all dice |",
+        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL}\
+   = sum all dice |",
+        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL}\
+    = 25.......... |",
+        f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL}\
+  = 30.......... |",
+        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL}\
+ = 40.......... |",
+        f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}......\
+  = 50.......... |",
+        f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}.......\
+  = sum all dice |"]
 
     scoreboard = 'Upper Section\n'
 
@@ -355,21 +364,27 @@ def update_scoreboard(scores):
     '''Updates relevant box within scoreboard'''
 
     clear_display()
-    results = 0
     categories = [
-        "Aces '1'    |",
-        "Twos '2'    |",
-        "Threes '3'  |",
-        "Fours '4'   |",
-        "Fives '5'   |",
-        "Sixes '6'   |",
-        "3 of a kind 'th'   = sum all dice |",
-        "4 of a kind 'fo'   = sum all dice |",
-        "Full House 'fh'.   = 25.......... |",
-        "Low Straight 'ls'  = 30.......... |",
-        "High Straight 'hs' = 40.......... |",
-        "Yahtzee 'y'......  = 50.......... |",
-        "Chance 'c'.......  = sum all dice |"]
+        f"Aces {Fore.GREEN+Style.BRIGHT}'1'{Fore.RESET+Style.NORMAL}    |",
+        f"Twos {Fore.GREEN+Style.BRIGHT}'2'{Fore.RESET+Style.NORMAL}    |",
+        f"Threes {Fore.GREEN+Style.BRIGHT}'3'{Fore.RESET+Style.NORMAL}  |",
+        f"Fours {Fore.GREEN+Style.BRIGHT}'4'{Fore.RESET+Style.NORMAL}   |",
+        f"Fives {Fore.GREEN+Style.BRIGHT}'5'{Fore.RESET+Style.NORMAL}   |",
+        f"Sixes {Fore.GREEN+Style.BRIGHT}'6'{Fore.RESET+Style.NORMAL}   |",
+        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL}\
+   = sum all dice |",
+        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL}\
+   = sum all dice |",
+        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL}\
+    = 25.......... |",
+        f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL}\
+  = 30.......... |",
+        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL}\
+ = 40.......... |",
+        f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}......\
+  = 50.......... |",
+        f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}.......\
+  = sum all dice |"]
 
     scoreboard = 'Upper Section\n'
 
