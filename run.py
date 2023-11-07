@@ -13,7 +13,8 @@ def clear_display():
 
 
 def home():
-    '''Displays home screen and user prompt for leaderboard, rules or game.'''
+    '''Displays home screen and user prompt for rules game.'''
+    global user_name
     clear_display()
     print('''
           __     __      _    _ _______ ____________ ______
@@ -38,28 +39,35 @@ def home():
                 rules()
             else:
                 while True:
-                    name = input('Please enter your name: ')
-                    if not name.isalpha():
-                        print(f"'{name}' invalid. Enter only letters.")
+                    user_name = input('Please enter your name: ')
+                    if not user_name.isalpha():
+                        print(f"'{user_name}' invalid. Enter only letters.")
                     else:
-                        name = name.capitalize()
-                        input(f"OK '{name}', let's play Yahtzee!\n"
+                        user_name = user_name.capitalize()
+                        input(f"OK '{user_name}', let's play Yahtzee!\n"
                               'Hit Enter to roll dice...')
                         roll = 0
                         roll_one(roll)
 
 
-def personal_best(name, grand_total):
+def personal_best(grand_total):
     '''Checks for PB for current session'''
-    global name
-    if grand_total > personal_best:
-        global personal_best
-        personal_best = grand_total
-        input(f'Congratulations {name}, you have set a new PB of {grand_total}. Press Enter to roll the dice'). # noqa
-        roll_one()
+    global pb
+    roll = 0
+    if grand_total > pb:
+        pb = grand_total
+        input(f'Congratulations {user_name}, you have set a new PB of {grand_total}. Press Enter to roll the dice. ')  # noqa
+        reset_scores(roll)
     else:
-        input(f'Hard lines {name}, your high score remains {personal_best}. Press Enter to roll the dice') # noqa
-        roll_one()
+        input(f'Hard lines {user_name}, your high score remains {pb}. Press Enter to roll the dice. ')  # noqa
+        reset_scores(roll)
+
+
+def reset_scores(roll):
+    '''Resets global scores'''
+    global scores
+    scores = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
+    roll_one(roll)
 
 
 def rules():
@@ -71,7 +79,7 @@ def rules():
 - Turns: You have up to 3 rolls per turn to achieve the best score.
 - Scoring Categories: Upper Section (Aces, Twos, Threes, Fours, Fives, Sixes) and Lower Section (3 of a Kind, 4 of a Kind, Full House, Low Straight, High Straight, Yahtzee, Chance).  # noqa
 - Upper Section: Score the sum of matching dice (e.g., Aces = sum of 1s).
-- Lower Section: Specific patterns (e.g., Full House = 3 of one number and 2 of another).
+- Lower Section: Specific patterns (e.g., Full House = 3 of one number and 2 of another).  # noqa
 - Yahtzee: 5 of a kind scores 50 points.
 - Chance: Sum of all dice.
 - Bonus: If upper section score > 63, earn a 35-point bonus.
@@ -87,6 +95,7 @@ def roll_one(roll):
     Generates a list of five random integers between 1 and 6 to represent die
     face values
     """
+    # global scores
     clear_display()
     display_scoreboard(scores)
     dice = []
@@ -130,7 +139,7 @@ def keep_choice(dice, roll):
     '''Takes dice and roll arg from previous roll and prompts the user to
     input which dice should be kept. Returns a list of integers to retain.'''
 
-    print('''Which dice do you want to keep? Enter only numbers 1-5 separated
+    print('''Which dice do you want to keep? Enter only numbers 1-5 separated \
  by spaces.''')
     # Prompt the user to input which dice to keep.
     while True:
@@ -209,11 +218,11 @@ def display_scoreboard(scores):
         f"Fours {Fore.GREEN+Style.BRIGHT}'4'{Fore.RESET+Style.NORMAL}   |",
         f"Fives {Fore.GREEN+Style.BRIGHT}'5'{Fore.RESET+Style.NORMAL}   |",
         f"Sixes {Fore.GREEN+Style.BRIGHT}'6'{Fore.RESET+Style.NORMAL}   |",
-        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
-        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
-        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL} = 25.......... |",  # noqa
+        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL} = sum all dice. |",  # noqa
+        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL} = sum all dice. |",  # noqa
+        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL} = 25............ |",  # noqa
         f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL} = 30.......... |",  # noqa
-        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL} = 40.......... |",  # noqa
+        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL} = 40......... |",  # noqa
         f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}...... = 50.......... |",  # noqa
         f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}....... = sum all dice |"]  # noqa
 
@@ -241,9 +250,9 @@ def display_scoreboard(scores):
         if i > 5:
             scoreboard += f'{category} {scores[i]}\n'
 
-    scoreboard += f'Total............................ | \
+    scoreboard += f'Total........................... | \
 {lower_section_total}\n'\
-                  f'\nGrand Total...................... | \
+                  f'\nGrand Total..................... | \
 {grand_total}\n'
 
     print(scoreboard)
@@ -284,14 +293,15 @@ def points(box, dice, scores):
         else:
             score = 0
     if box == 'ls':
-        dice.sort()
+        dice = [int(d) for d in dice]
         unique_dice = list(set(dice))
-        unique_dice_sets = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6],
-                            [1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
+        unique_dice.sort()
+        unique_dice_sets = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6], [1, 2, 3, 4, 5], [2, 3, 4, 5, 6], [1, 3, 4, 5, 6], [1, 2, 3, 4, 6]]  # noqa
         score = 30 if unique_dice in unique_dice_sets else 0
     if box == 'hs':
-        dice.sort()
+        dice = [int(d) for d in dice]
         unique_dice = list(set(dice))
+        dice.sort()
         unique_dice_sets = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
         score = 40 if unique_dice in unique_dice_sets else 0
     if box == 'y':
@@ -359,7 +369,6 @@ def update_category(box, score):
 
 def update_scoreboard(scores):
     '''Updates relevant box within scoreboard'''
-    global name
     clear_display()
     categories = [
         f"Aces {Fore.GREEN+Style.BRIGHT}'1'{Fore.RESET+Style.NORMAL}    |",
@@ -368,11 +377,11 @@ def update_scoreboard(scores):
         f"Fours {Fore.GREEN+Style.BRIGHT}'4'{Fore.RESET+Style.NORMAL}   |",
         f"Fives {Fore.GREEN+Style.BRIGHT}'5'{Fore.RESET+Style.NORMAL}   |",
         f"Sixes {Fore.GREEN+Style.BRIGHT}'6'{Fore.RESET+Style.NORMAL}   |",
-        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
-        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
-        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL} = 25.......... |",  # noqa
+        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL} = sum all dice. |",  # noqa
+        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL} = sum all dice. |",  # noqa
+        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL} = 25............ |",  # noqa
         f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL} = 30.......... |",  # noqa
-        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL} = 40.......... |",  # noqa
+        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL} = 40......... |",  # noqa
         f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}...... = 50.......... |",  # noqa
         f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}....... = sum all dice |"]  # noqa
 
@@ -401,9 +410,9 @@ def update_scoreboard(scores):
         if i > 5:
             scoreboard += f'{category} {scores[i]}\n'
 
-    scoreboard += f'Total............................ | \
+    scoreboard += f'Total........................... | \
 {lower_section_total}\n' \
-                  f'\nGrand Total...................... | \
+                  f'\nGrand Total..................... | \
 {grand_total}\n'
 
     print(scoreboard)
@@ -413,9 +422,8 @@ def update_scoreboard(scores):
         roll = 0
         roll_one(roll)
     else:
-        input(f"Congratulations {name}! You have completed all boxes.\n\
-Your final score is {grand_total}. Press Enter to return home. ")
-        personal_best(name, grand_total)
+        input(f"Game over. Your final score is {grand_total}. Press Enter... ")
+        personal_best(grand_total)
 
 
 def extras(scores):
@@ -463,8 +471,8 @@ def extras(scores):
 
 
 # Main code block
-personal_best = 0
 scores = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
+pb = 0
 if __name__ == '__main__':
     ''' Python app initialised, call the first function '''
     home()
