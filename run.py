@@ -97,10 +97,10 @@ def roll_one(roll):
         die = random.randint(1, 6)
         dice.append(die)
 
-    user_prompt(dice, roll)
+    user_prompt(dice, roll, scores)
 
 
-def user_prompt(dice, roll):
+def user_prompt(dice, roll, scores):
     '''Prints the current roll and prompts user to re-roll, submit or exit.'''
     roll += 1
     remain = 3-roll
@@ -110,7 +110,7 @@ def user_prompt(dice, roll):
         input(f'You have taken 3 rolls and your dice are: {dice}\n'
               'Time to submit your score! Press Enter')
         clear_display()
-        submit(dice)
+        submit(dice, scores)
     # Advises user of dice and asks for valid unput
     print(f'After roll {roll} ({remain} remaining), your dice are: {dice}\n'
           "Enter 'r' to re-roll, 's' to submit score, or 'e' to exit.")
@@ -123,7 +123,7 @@ def user_prompt(dice, roll):
             home()
         elif game_choice == 's':
             clear_display()
-            submit(dice)
+            submit(dice, scores)
         else:
             keep_choice(dice, roll)
 
@@ -168,10 +168,10 @@ def keep_and_reroll(dice, roll, dice_to_keep):
         if die not in dice_to_keep:
             dice[die] = random.randint(1, 6)
 
-    user_prompt(dice, roll)
+    user_prompt(dice, roll, scores)
 
 
-def submit(dice):
+def submit(dice, scores):
     '''
     Evaluates score and adds to scoreboard once user selects box.
     Then resets dice and roll before calling roll_one.
@@ -183,16 +183,22 @@ def submit(dice):
     box_options = [
         '1', '2', '3', '4', '5', '6', 'th', 'fo', 'fh', 'ls', 'hs', 'y', 'c']
     while True:
-        box = input(f"Enter box \
-{Fore.GREEN+Style.BRIGHT}'key'{Fore.RESET+Style.NORMAL} \
-you want to use (see Scoreboard): ")
-        # Check that box input is in the list of box_options
+        box = input(f"Enter box {Fore.GREEN+Style.BRIGHT}'key'\
+{Fore.RESET+Style.NORMAL} "
+                    f"you want to use (see Scoreboard): ").lower()
+
+        # Check that box input is in the list of box_options and not marked 'x'
         if box not in box_options:
-            print(f"'{box}' invalid. Enter box {Fore.GREEN+Style.BRIGHT}'key'\
-{Fore.RESET+Style.NORMAL} you want to use (see Scoreboard): ")
+            print(f"'{box}' invalid. Enter a valid box \
+{Fore.GREEN+Style.BRIGHT}'key'{Fore.RESET+Style.NORMAL}.")
+        elif not scores[box_options.index(box)] == 'x':
+            print(f"The box {Fore.GREEN+Style.BRIGHT}'{box}'\
+{Fore.RESET+Style.NORMAL} already has an 'x'. Choose another box.")
         else:
-            box = box.lower()
-            points(box, dice)
+            points(box, dice, scores)
+            # Mark the selected box with an 'x'
+            scores[box_options.index(box)] = 'x'
+            break
 
 
 def display_scoreboard(scores):
@@ -252,7 +258,7 @@ def display_scoreboard(scores):
     print(scoreboard)
 
 
-def points(box, dice):
+def points(box, dice, scores):
     '''Calculates points scored'''
 
     if box == '1':
@@ -311,7 +317,7 @@ def points(box, dice):
         update_category(box, score)
     else:
         clear_display()
-        submit(dice)
+        submit(dice, scores)
 
 
 def update_category(box, score):
