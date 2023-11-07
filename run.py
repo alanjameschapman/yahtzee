@@ -14,6 +14,7 @@ def clear_display():
 
 def home():
     '''Displays home screen and user prompt for leaderboard, rules or game.'''
+    global name
     clear_display()
     print('''
           __     __      _    _ _______ ____________ ______
@@ -42,8 +43,7 @@ def home():
                 while True:
                     name = input('Please enter your name: ')
                     if not name.isalpha():
-                        print(f"'{name}' invalid. \
-Enter only alphabetical characters.")
+                        print(f"'{name}' invalid. Enter only letters.")
                     else:
                         name = name.capitalize()
                         input(f"OK '{name}', let's play Yahtzee!\n"
@@ -111,9 +111,10 @@ def user_prompt(dice, roll, scores):
               'Time to submit your score! Press Enter')
         clear_display()
         submit(dice, scores)
-    # Advises user of dice and asks for valid unput
-    print(f'After roll {roll} ({remain} remaining), your dice are: {dice}\n'
-          "Enter 'r' to re-roll, 's' to submit score, or 'e' to exit.")
+    # Advises user of dice and asks for valid unput.
+    print(
+        f'After roll {roll} ({remain} remaining), your dice are: {dice}\n'
+        f"Enter 'r' to re-roll, 's' to submit score, or 'e' to exit.")
     while True:
         game_choice = input('Your choice: ')
         game_choice = game_choice.lower()
@@ -211,20 +212,13 @@ def display_scoreboard(scores):
         f"Fours {Fore.GREEN+Style.BRIGHT}'4'{Fore.RESET+Style.NORMAL}   |",
         f"Fives {Fore.GREEN+Style.BRIGHT}'5'{Fore.RESET+Style.NORMAL}   |",
         f"Sixes {Fore.GREEN+Style.BRIGHT}'6'{Fore.RESET+Style.NORMAL}   |",
-        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL}\
-   = sum all dice |",
-        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL}\
-   = sum all dice |",
-        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL}\
-    = 25.......... |",
-        f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL}\
-  = 30.......... |",
-        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL}\
- = 40.......... |",
-        f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}......\
-  = 50.......... |",
-        f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}.......\
-  = sum all dice |"]
+        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
+        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
+        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL} = 25.......... |",  # noqa
+        f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL} = 30.......... |",  # noqa
+        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL} = 40.......... |",  # noqa
+        f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}...... = 50.......... |",  # noqa
+        f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}....... = sum all dice |"]  # noqa
 
     scoreboard = 'Upper Section\n'
 
@@ -368,7 +362,7 @@ def update_category(box, score):
 
 def update_scoreboard(scores):
     '''Updates relevant box within scoreboard'''
-
+    global name
     clear_display()
     categories = [
         f"Aces {Fore.GREEN+Style.BRIGHT}'1'{Fore.RESET+Style.NORMAL}    |",
@@ -377,20 +371,13 @@ def update_scoreboard(scores):
         f"Fours {Fore.GREEN+Style.BRIGHT}'4'{Fore.RESET+Style.NORMAL}   |",
         f"Fives {Fore.GREEN+Style.BRIGHT}'5'{Fore.RESET+Style.NORMAL}   |",
         f"Sixes {Fore.GREEN+Style.BRIGHT}'6'{Fore.RESET+Style.NORMAL}   |",
-        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL}\
-   = sum all dice |",
-        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL}\
-   = sum all dice |",
-        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL}\
-    = 25.......... |",
-        f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL}\
-  = 30.......... |",
-        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL}\
- = 40.......... |",
-        f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}......\
-  = 50.......... |",
-        f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}.......\
-  = sum all dice |"]
+        f"3 of a kind {Fore.GREEN+Style.BRIGHT}'th'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
+        f"4 of a kind {Fore.GREEN+Style.BRIGHT}'fo'{Fore.RESET+Style.NORMAL} = sum all dice |",  # noqa
+        f"Full House {Fore.GREEN+Style.BRIGHT}'fh'{Fore.RESET+Style.NORMAL} = 25.......... |",  # noqa
+        f"Low Straight {Fore.GREEN+Style.BRIGHT}'ls'{Fore.RESET+Style.NORMAL} = 30.......... |",  # noqa
+        f"High Straight {Fore.GREEN+Style.BRIGHT}'hs'{Fore.RESET+Style.NORMAL} = 40.......... |",  # noqa
+        f"Yahtzee {Fore.GREEN+Style.BRIGHT}'y'{Fore.RESET+Style.NORMAL}...... = 50.......... |",  # noqa
+        f"Chance {Fore.GREEN+Style.BRIGHT}'c'{Fore.RESET+Style.NORMAL}....... = sum all dice |"]  # noqa
 
     scoreboard = 'Upper Section\n'
 
@@ -423,13 +410,13 @@ def update_scoreboard(scores):
 {grand_total}\n'
 
     print(scoreboard)
-    
+
     if 'x' in scores:
         input("Enter to roll again...")
         roll = 0
         roll_one(roll)
     else:
-        input(f"Congratulations! You have completed all boxes.\n\
+        input(f"Congratulations {name}! You have completed all boxes.\n\
 Your final score is {grand_total}. Press Enter to return home. ")
         home()
 
