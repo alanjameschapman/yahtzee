@@ -33,6 +33,14 @@ Every user input was validated for various incorrect inputs, as shown in the nex
 | update_scoreboard() | Any input | '1' | Reset roll variable call roll_one function. | ![update_scoreboard validation](/docs/testing/functions/update_scoreboard.png) | PASS |
 | personal_best() | Any input | '' | Reset score, restart game, compare grand_total to 'pb' on next pass and provide user feedback | ![update_scoreboard validation](/docs/testing/functions/personal_best.png)
 
+## __Browser Testing__
+
+| Browser | Image(s) |
+| ------- | :------: |
+| Chrome | ![chrome](docs/testing/browsers/chrome.png) |
+| Firefox | ![firefox](docs/testing/browsers/firefox.png) |
+| Edge | ![edge](docs/testing/browsers/edge.png) |
+
 ## __Debugging__
 
 Bugs were tracked using GitHub's Issues functionality - click [here](https://github.com/alanjameschapman/yahtzee/issues)
