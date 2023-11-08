@@ -65,3 +65,11 @@ Input expected: accepts any input, then resets roll variable and calls roll_one 
 Input expected: accepts any input then resets score, which in turn calls roll_one function.
 
 ![update_scoreboard validation](/docs/testing/functions/personal_best.png)
+
+## __Bug fixing__
+
+Bugs were tracked using GitHub's Issues functionality - click [here](https://github.com/alanjameschapman/yahtzee/issues)
+
+
+
+[Issue 2 - Scoreboard not displaying correctly in terminal](https://github.com/alanjameschapman/yahtzee/issues/2)
