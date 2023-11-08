@@ -9,7 +9,7 @@ Python coding errors were caught and fixed using [CI pep8 linter](https://pep8ci
 ## __User Story Testing__
 
 | As a user, I want to... | Requirement met | Image(s) |
-| :---------------------- | :------------: | :------: |
+| :---------------------: | :------------: | :------: |
 | Play a solo, fun interactive game of Yahtzee and learn rules if needed. | YES | ![story1](/docs/testing/user_stories/story1.png) |
 | Input my name which will be used throughout the game | YES | ![story2a](/docs/testing/user_stories/story2a.png) ![story2b](/docs/testing/user_stories/story2b.png) |
 | Re-roll, submit score or escape home if desired. | YES | ![story3](/docs/testing/user_stories/story3.png) |
@@ -23,7 +23,7 @@ Python coding errors were caught and fixed using [CI pep8 linter](https://pep8ci
 Every user input was validated for various incorrect inputs, as shown in the next sections, broken down by function.
 
 | Function Tested | Inputs Validated | Validation Test | Expected Outcome | Actual Outcome | Pass/Fail |
-| :-------------: | :--------------: | :-------------: | :--------------- | :------------: | :-------: |
+| :-------------: | :--------------: | :-------------: | :--------------: | :------------: | :-------: |
 | home() | 'r' or 'p' | '', number and invalid letter | Print error, repeat input prompt | ![home validation](/docs/testing/functions/home.png) | PASS |
 | home() | name string | '' and number | Print error, repeat input prompt. | ![home validation](/docs/testing/functions/home.png) | PASS |
 | user_prompt() | 'r', 's', or 'e' | '', number, and invalid letter | Print error, repeat input prompt. | ![user_prompt validation](/docs/testing/functions/user_prompt.png) | PASS |

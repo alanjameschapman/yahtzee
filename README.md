@@ -4,11 +4,11 @@ Yahtzee is a dice game which can be be played as multi-player or single player. 
 
 ## __Planning__
 
-I evaluated several other ideas for this project (Noughts and crosses, sudoku) and documented them [here](https://docs.google.com/presentation/d/1O7Istg9Qo5xgLVj28-5xCkhKq3LVPhd5kdKdjbkPYx4/edit?usp=sharing). I chose Yahtzee because it has a challenging set of scoring rules, and it lends itself well to customization. For example, it can be played solo or multi-player, single-game or multi-game and has an optional Yahtzee bonus score. It also lends itself well to a leaderboard using Google leaderboard - see [Future Enhancements](#future-enhancements).
+I evaluated several other ideas for this project - noughts and crosses, sudoku, stock management - and documented them [here](https://docs.google.com/presentation/d/1O7Istg9Qo5xgLVj28-5xCkhKq3LVPhd5kdKdjbkPYx4/edit?usp=sharing). I chose Yahtzee because it has a challenging set of scoring rules to code, and it lends itself well to customization. For example, it can be played solo or multi-player, single-game or multi-game and has an optional Yahtzee bonus score. It also lends itself well to a leaderboard using Google leaderboard - see [Future Enhancements](#future-enhancements).
 
 ### __Flowchart__
 
-To help me structure the functions and visualize the user stories, I created a flowchart.
+To help me structure the functions and visualize the user stories, I created a flowchart which is broken down by function, input, flow control and display blocks.
 
 ![flowchart](/docs/flowchart.png)
 
@@ -19,9 +19,9 @@ To help me structure the functions and visualize the user stories, I created a f
 As a user, I want to:
 
 - Play a solo, fun interactive game of Yahtzee and learn rules if needed.
-- Input my name and be given feedback if I entered invalid data.
+- Input my name which will be used throughout the game.
 - Re-roll, submit score or escape home if desired.
-- Easily select which dice I want to keep for re-roll and be given feedback if I entered invalid data.
+- Easily select which dice I want to keep for re-roll .
 - Get feedback on how my dice will score against my chosen category and allow me to change my mind.
 - View my updated scoreboard as I progress through the game.
 - Compete against my personal best.
@@ -34,9 +34,9 @@ Colours have been used to help the user understand how to select the correct box
 
 ### __Terminal Window Size__
 
-This app was originally designed to fit a terminal screen size of 80 columns by 24 rows. Due to this constraint, I have used a clear_display function to minimize the amount of information displayed on the screen at any one time. Even so, there were times (such as the rules screen screen) where the screen size was intentionally exceeded to enable the user to see all the information in one place, albeit with scrolling.
+This app was originally designed to fit a terminal screen size of 80 columns by 24 rows. Due to this constraint, I have used a clear_display function to minimize the amount of information displayed on the screen at any one time. Even so, there were points in the flow (such as the rules screen) where the screen size had to be intentionally exceeded to enable the user to see all the information in one place, albeit with scrolling.
 
-Some rows were repeating due to conflict between terminal size and clear_display function. This is a known bug which occurs if some rows are hidden from view when clear_display function is used.
+Some rows were repeating due to conflict between terminal size and clear_display function. This is a known bug in Heroku which occurs if some rows are hidden from view when clear_display function is used.
 
 Columns and rows were increased from 80 and 24 to 100 and 40 respectively.
 
@@ -48,9 +48,9 @@ By increasing the terminal size, the scoreboard with rules displayed without any
 
 ### __Lessons learned from previous project implemented here__
 
-- Section on validation and bug fixes included in table form.
+- Section on validation and bug fixes included in table form [here](/TESTING.md).
 - Validation errors caught and fixed using the [CI pep8 linter](https://pep8ci.herokuapp.com/#).
-- Commit messages like "take 2" avoided. Messages kept short and frequent. Commits made per file or folder.
+- Commit messages like "take 2" avoided. Messages kept short and frequent. Commits made per file or folder. See commit history [here](https://github.com/alanjameschapman/yahtzee/commits/main)
 
 ### __Features and Functionality__
 
