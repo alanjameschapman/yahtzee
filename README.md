@@ -17,12 +17,14 @@ To help me structure the functions and visualize the program flow, I created a f
 ## __UX & Design__
 
 ### __User Stories__
-- As a user, I want to be able to input my name and location and be given feedback if I entered invalid data.
-- As a user, I want to be 
 
-- Users who want to play a solo, fun interactive game.
-- Users who want to improve their previous scores.
-- Ability to learn rules, restart game and compete against themselves.
+As a user, I want:
+
+- To play a solo, fun interactive game of Yahtzee and learn rules if needed.
+- To input my name and be given feedback if I entered invalid data.
+- Re-roll, submit score or escape home if desired.
+- To compete against my previous scores and get a personal best.
+-  restart game
 
 ### Colorama
 
@@ -54,6 +56,8 @@ View Testing and Validation [here.](TESTING.md)
 ### Debugging Code
 
 I used [python tutor](<https://pythontutor.com/>) to isolate and refactor code blocks.
+
+
 
 ## Deployment
 
