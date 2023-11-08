@@ -77,9 +77,11 @@ def rules():
     print('''Single Player Yahtzee Rules:
 - Objective: Score as high as possible by rolling five dice.
 - Turns: You have up to 3 rolls per turn to achieve the best score.
-- Scoring Categories: Upper Section (Aces, Twos, Threes, Fours, Fives, Sixes) and Lower Section (3 of a Kind, 4 of a Kind, Full House, Low Straight, High Straight, Yahtzee, Chance).  # noqa
+- Scoring Categories: Upper Section (Aces, Twos, Threes, Fours, Fives, Sixes) and Lower Section (3 of a Kind, 4 of a Kind, Full House, Low Straight, High Straight, Yahtzee, Chance).'''  # noqa
+'''
 - Upper Section: Score the sum of matching dice (e.g., Aces = sum of 1s).
-- Lower Section: Specific patterns (e.g., Full House = 3 of one number and 2 of another).  # noqa
+- Lower Section: Specific patterns (e.g., Full House = 3 of one number and 2 of another).'''  # noqa
+'''
 - Yahtzee: 5 of a kind scores 50 points.
 - Chance: Sum of all dice.
 - Bonus: If upper section score > 63, earn a 35-point bonus.
