@@ -4,11 +4,11 @@ Yahtzee is a dice game which can be be played as multi-player or single player. 
 
 ## __Planning__
 
-This app was designed to fit a terminal screen size of 80 columns by 24 rows. Due to this constraint, I used a clear_display function to minimize the amount of information displayed on the screen. Where the screen size is exceeded, such as the rules screen, this has been intentionally done to enable the user to see all the information in one place, albeit with scrolling.
+I evaluated several other ideas for this project (Noughts and crosses, sudoku) and documented them [here](https://docs.google.com/presentation/d/1O7Istg9Qo5xgLVj28-5xCkhKq3LVPhd5kdKdjbkPYx4/edit?usp=sharing). I chose Yahtzee because it has a challenging set of scoring rules, and it lends itself well to customization. For example, it can be played solo or multi-player, single-game or multi-game and has an optional Yahtzee bonus score. It also lends itself well to a leaderboard using Google leaderboard - see [Future Enhancements](#future-enhancements).
 
 ### __Flowchart__
 
-To help me structure the functions and visualize the program flow, I created a flowchart.
+To help me structure the functions and visualize the user stories, I created a flowchart.
 
 ![flowchart](/docs/flowchart.png)
 
@@ -26,34 +26,45 @@ As a user, I want to:
 - View my updated scoreboard as I progress through the game.
 - Compete against my personal best.
 
-### Colorama
+### __Colorama__
 
-Colours have been used to help the user understand how to select the correct box in which to score points.
+Colours have been used to help the user understand how to select the correct box in which to score points:
 
-### Lessons learned from previous project implemented here
+![colorama](/docs/colorama.png)
 
-- Section on bug fixes included.
+### __Terminal Window Size__
+
+This app was originally designed to fit a terminal screen size of 80 columns by 24 rows. Due to this constraint, I have used a clear_display function to minimize the amount of information displayed on the screen at any one time. Even so, there were times (such as the rules screen screen) where the screen size was intentionally exceeded to enable the user to see all the information in one place, albeit with scrolling.
+
+Some rows were repeating due to conflict between terminal size and clear_display function. This is a known bug which occurs if some rows are hidden from view when clear_display function is used.
+
+Columns and rows were increased from 80 and 24 to 100 and 40 respectively.
+
+![terminal size](/docs/testing/bugs/bug2_fix_terminal.png)
+
+By increasing the terminal size, the scoreboard with rules displayed without any errors.
+
+![terminal size](/docs/testing/bugs/bug2_fix_scoreboard_display.png)
+
+### __Lessons learned from previous project implemented here__
+
+- Section on validation and bug fixes included in table form.
 - Validation errors caught and fixed using the [CI pep8 linter](https://pep8ci.herokuapp.com/#).
-- Commit messages like "take 2" avoided. Messages kept short and frequent.
+- Commit messages like "take 2" avoided. Messages kept short and frequent. Commits made per file or folder.
 
-## Features and Functionality
+### __Features and Functionality__
 
-For a description of each function, docstrings are provided within.
+Features and functions have been designed to meet the requirements of the User Stories. Docstrings are provided for every function explaining what they doc. Additional comments are included where helpful.
 
 ### __Imported Libraries and Packages__
 
 - [random](https://docs.python.org/3/library/random.html) was used to generate 5 random numbers between 1-6 to represent dice face values.
-- [os](https://docs.python.org/3/library/os.html) was used to create the clear_screen function to enhance user experience and reduce clutter on screen.
+- [os](https://docs.python.org/3/library/os.html) was used to create the clear_display function to enhance user experience and reduce clutter on screen.
 - [Colorama](https://pypi.org/project/colorama/) was used to add colour to some aspects of the program to help them stand out.
 
 ## Testing and Debugging
 
 View Testing and Bug Fixing [here.](TESTING.md)
-
-### Debugging Code
-
-I used [python tutor](<https://pythontutor.com/>) to isolate and refactor code blocks.
-
 
 ## Deployment
 
@@ -146,32 +157,26 @@ You can fork this repository by using the following steps:
 2. At the top of the Repository (not top of page) just above the "Settings" Button on the menu, locate the "Fork" Button.
 3. Once clicked, you should now have a copy of the original repository in your own GitHub account!
 
-## Future Enhancements
+## __Future Enhancements__
 
-Interaction with Google Sheet to read/write data to/from a Leaderboard.
+- Interaction with Google Sheets to read/write data to/from a Leaderboard.
+- Play against the computer.
+- Inlcude a Yahtzee bonus.
 
-## Credits
-
-### Peer Review
-
-Following on from #peer-code-review on Slack (TBC) and mentor feedback from Tim Nelson and David Bowers I implemented a few improvements:
-
-- Escape characters used to correct Yahtzee ASCII art for home screen.
-- Colorama used to clarify to the user how to allocate their points.
-
-### Content
-
-The site is intended solely for educational purposes. All images and favicons remain the property of those credited above
+## __Credits__
 
 ### __Code__
-- Code to create clear_screen function taken from [Delftstack](https://www.delftstack.com/howto/python/python-clear-console/)
+- Code to create clear_display function taken from [Delftstack](https://www.delftstack.com/howto/python/python-clear-console/)
 - Code to generate 5 random numbers between 1-6 to represent dice face value taken from [Real Python](https://realpython.com/python-dice-roll/)
 - Code to display ASCII art for YAHTZEE lettering generated by [ascii-art-generator](https://www.ascii-art-generator.org/)
-
 
 ### __Design__
 - The Flowchart was made using Google Slides.
 - Favicon was taken from [freefavicon](https://www.freefavicon.com/freefavicons/objects/iconinfo/dice-152-26713.html)
+
+### Content
+
+The site is intended solely for educational purposes. All images and favicons remain the property of those credited above
 
 ## __Acknowledgements__
 
